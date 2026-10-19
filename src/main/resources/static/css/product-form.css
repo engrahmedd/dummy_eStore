@@ -1,0 +1,164 @@
+/* ── product-form.css ── */
+
+.page-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.back-link {
+    display: inline-block;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--color-accent); }
+
+/* ── Form card ── */
+.form-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+}
+
+.form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0 0 2rem;
+}
+
+/* ── Form rows ── */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+}
+
+.form-row .form-field { margin-bottom: 0; }
+
+.form-field label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+    width: 100%;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.form-field input[readonly] {
+    background: var(--color-image-bg);
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+
+.form-field textarea { resize: vertical; min-height: 120px; }
+
+/* ── Field errors ── */
+.field-error {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    color: #922b21;
+}
+
+/* ── Image preview ── */
+.image-preview {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.image-preview label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.image-preview img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.5rem;
+    background: var(--color-image-bg);
+}
+
+.image-note {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+.image-note code {
+    background: var(--color-image-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--color-text-primary);
+}
+
+/* ── Actions ── */
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.btn-cancel {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.btn-cancel:hover { color: var(--color-text-primary); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+    .form-card { padding: 1.5rem; }
+}

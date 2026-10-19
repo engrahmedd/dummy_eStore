@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Checkout – PuzzleShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/checkout.css}"/>
+</head>
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="page-wrapper">
+
+    <a th:href="@{/cart}" class="back-link">← Back to Cart</a>
+
+    <h1 class="page-title">Checkout</h1>
+
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <div class="checkout-layout">
+
+        <!-- ── Left: Forms ── -->
+        <div class="checkout-forms">
+            <form th:action="@{/checkout}" th:object="${checkoutForm}" method="post">
+
+                <!-- ── Shipping ── -->
+                <div class="form-section">
+                    <h2 class="section-title">Shipping Information</h2>
+
+                    <div class="form-field">
+                        <label for="shippingName">Full Name</label>
+                        <input id="shippingName" th:field="*{shippingName}"
+                               type="text" placeholder="John Doe"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="shippingAddress">Address</label>
+                        <input id="shippingAddress" th:field="*{shippingAddress}"
+                               type="text" placeholder="123 Main St"/>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="shippingCity">City</label>
+                            <input id="shippingCity" th:field="*{shippingCity}"
+                                   type="text" placeholder="Chicago"/>
+                        </div>
+                        <div class="form-field">
+                            <label for="shippingState">State</label>
+                            <input id="shippingState" th:field="*{shippingState}"
+                                   type="text" placeholder="IL"/>
+                        </div>
+                        <div class="form-field">
+                            <label for="shippingZip">ZIP Code</label>
+                            <input id="shippingZip" th:field="*{shippingZip}"
+                                   type="text" placeholder="60601"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Payment ── -->
+                <div class="form-section">
+                    <h2 class="section-title">Payment Information</h2>
+
+                    <div class="form-field">
+                        <label for="cardholderName">Cardholder Name</label>
+                        <input id="cardholderName" th:field="*{cardholderName}"
+                               type="text" placeholder="John Doe"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="cardNumber">Card Number</label>
+                        <input id="cardNumber" th:field="*{cardNumber}"
+                               type="text" placeholder="1234 5678 9012 3456"
+                               maxlength="19"/>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="expirationMonth">Expiry Month</label>
+                            <input id="expirationMonth" th:field="*{expirationMonth}"
+                                   type="text" placeholder="MM" maxlength="2"/>
+                        </div>
+                        <div class="form-field">
+                            <label for="expirationYear">Expiry Year</label>
+                            <input id="expirationYear" th:field="*{expirationYear}"
+                                   type="text" placeholder="YYYY" maxlength="4"/>
+                        </div>
+                        <div class="form-field">
+                            <label for="cvv">CVV</label>
+                            <input id="cvv" th:field="*{cvv}"
+                                   type="text" placeholder="123" maxlength="4"/>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full btn-place-order">
+                    Place Order
+                </button>
+
+            </form>
+        </div>
+
+        <!-- ── Right: Order summary ── -->
+        <div class="checkout-summary">
+            <h2 class="summary-title">Order Summary</h2>
+
+            <div class="summary-items">
+                <div th:each="item : ${cart.items}" class="summary-item">
+                    <div class="summary-item-image">
+                        <img th:src="@{'/images/products-images/' + ${item.product.productCode} + '-01.jpg'}"
+                             th:alt="${item.product.name}"
+                             onerror="this.onerror=null; this.src=''"/>
+                    </div>
+                    <div class="summary-item-details">
+                        <span class="summary-item-name" th:text="${item.product.name}"></span>
+                        <span class="summary-item-qty" th:text="'Qty: ' + ${item.quantity}"></span>
+                    </div>
+                    <span class="summary-item-total" th:text="'$' + ${item.lineTotal}"></span>
+                </div>
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span th:text="'$' + ${cartTotal}"></span>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+/* ── error.css ── */
+.error-wrapper {
+    max-width: 500px;
+    margin: 6rem auto;
+    padding: 0 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.error-code {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: var(--color-border);
+    line-height: 1;
+}
+
+.error-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.error-sub {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.error-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.error-actions .btn-primary {
+    text-decoration: none;
+    padding: 0.65rem 2rem;
+    border-radius: 6px;
+}
+
+.btn-continue {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.btn-continue:hover { color: var(--color-text-primary); }

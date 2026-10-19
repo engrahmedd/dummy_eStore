@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Login')}">
+    <link rel="stylesheet" th:href="@{/css/products.css}"/>
+</head>
+<body>
+<div class="login-wrapper">
+
+    <a th:href="@{/}" class="back-link">← Back to Home</a>
+
+    <div class="login-header">
+        <h1 class="brand">Gearwood Account</h1>
+    </div>
+
+    <div class="login-card">
+
+        <div th:if="${errorMessage}" class="alert alert-error">
+            <span th:text="${errorMessage}"></span>
+        </div>
+        <div th:if="${successMessage}" class="alert alert-success">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            <span>You have been signed out successfully.</span>
+        </div>
+
+        <form method="post" th:action="@{/login}">
+            <div class="form-field">
+                <label for="username">Email address</label>
+                <input id="username" name="username" type="text"
+                       placeholder="you@example.com" required autofocus/>
+            </div>
+
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password"
+                       placeholder="••••••••" required/>
+                <div class="show-password">
+                    <input type="checkbox" id="showPassword" onchange="togglePassword()"/>
+                    <label for="showPassword">Show password</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+        </form>
+    </div>
+
+    <p class="login-footer">
+        Don't have an account?
+        <a th:href="@{/register}">Register</a>
+    </p>
+</div>
+
+<script>
+    function togglePassword() {
+        const field = document.getElementById('password');
+        field.type = document.getElementById('showPassword').checked ? 'text' : 'password';
+    }
+</script>
+</body>
+</html>

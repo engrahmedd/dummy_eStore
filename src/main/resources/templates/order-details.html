@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Order Details – PuzzleShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/account.css}"/>
+</head>
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="page-wrapper">
+    <div class="account-layout">
+
+        <aside class="account-sidebar">
+            <div class="sidebar-avatar">
+                <span th:text="${#strings.substring(user.firstName, 0, 1) + #strings.substring(user.lastName, 0, 1)}"></span>
+            </div>
+            <p class="sidebar-name" th:text="${user.firstName + ' ' + user.lastName}"></p>
+            <p class="sidebar-email" th:text="${user.email}"></p>
+
+            <nav class="sidebar-nav">
+                <a th:href="@{/account}" class="sidebar-link">Overview</a>
+                <a th:href="@{/account/orders}" class="sidebar-link">Order History</a>
+                <a th:href="@{/account/edit}" class="sidebar-link">Edit Account</a>
+                <a th:href="@{/account/change-password}" class="sidebar-link">Change Password</a>
+            </nav>
+        </aside>
+
+        <div class="account-content">
+            <a th:href="@{/account/orders}" class="back-link">← Back to Order History</a>
+            <h1 class="page-title" th:text="'Order ' + ${order.orderNumber}"></h1>
+
+            <!-- ── Order meta ── -->
+            <div class="account-card">
+                <h2 class="card-title">Order Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Order Number</span>
+                        <span class="info-value" th:text="${order.orderNumber}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Order Date</span>
+                        <span class="info-value" th:text="${order.orderDate.toLocalDate()}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status</span>
+                        <span class="order-status" th:text="${order.status}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Transaction ID</span>
+                        <span class="info-value mono" th:text="${order.transactionId}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Shipping ── -->
+            <div class="account-card">
+                <h2 class="card-title">Shipping Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Name</span>
+                        <span class="info-value" th:text="${order.shippingName}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Address</span>
+                        <span class="info-value" th:text="${order.shippingAddress}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">City</span>
+                        <span class="info-value" th:text="${order.shippingCity}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">State / ZIP</span>
+                        <span class="info-value"
+                              th:text="${order.shippingState + ' ' + order.shippingZip}">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Items ── -->
+            <div class="account-card">
+                <h2 class="card-title">Items Ordered</h2>
+                <div class="order-items">
+                    <div th:each="item : ${order.items}" class="order-item">
+                        <div class="order-item-image">
+                            <img th:src="@{'/images/products-images/' + ${item.product.productCode} + '-01.jpg'}"
+                                 th:alt="${item.productNameAtPurchase}"
+                                 onerror="this.onerror=null; this.src=''"/>
+                        </div>
+                        <div class="order-item-details">
+                            <span class="order-item-name"
+                                  th:text="${item.productNameAtPurchase}"></span>
+                            <span class="order-item-meta"
+                                  th:text="'Qty: ' + ${item.quantity} + ' × $' + ${item.unitPriceAtPurchase}">
+                            </span>
+                        </div>
+                        <span class="order-item-total"
+                              th:text="'$' + ${item.lineTotal}"></span>
+                    </div>
+                </div>
+
+                <div class="order-total-row">
+                    <span>Order Total</span>
+                    <span th:text="'$' + ${order.orderTotal}"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

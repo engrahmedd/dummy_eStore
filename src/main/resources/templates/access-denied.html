@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Access Denied – PuzzleShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/error.css}"/>
+</head>
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="error-wrapper">
+    <div class="error-code">403</div>
+    <h1 class="error-title">Access Denied</h1>
+    <p class="error-sub">You don't have permission to view this page.</p>
+    <div class="error-actions">
+        <a th:href="@{/}" class="btn-primary">Go Home</a>
+        <a th:href="@{/products}" class="btn-continue">Browse Products</a>
+    </div>
+</main>
+
+</body>
+</html>

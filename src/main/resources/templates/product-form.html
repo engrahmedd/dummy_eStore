@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${isEdit} ? 'Edit Product – PuzzleShop' : 'Create Product – PuzzleShop'">Product Form – PuzzleShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/product-form.css}"/>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="page-wrapper">
+
+    <a th:href="${isEdit} ? @{'/products/' + ${productForm.productCode}} : @{/products}"
+       class="back-link">
+        ← <span th:text="${isEdit} ? 'Back to Product' : 'Back to Products'"></span>
+    </a>
+
+    <div class="form-card">
+
+        <h1 class="form-title"
+            th:text="${isEdit} ? 'Edit Product' : 'Create Product'">
+        </h1>
+
+        <form th:action="${isEdit} ? @{'/admin/products/edit/' + ${productForm.productCode}} : @{/admin/products/create}"
+              th:object="${productForm}"
+              method="post">
+
+            <!-- ── Row 1: Code + Name ── -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="productCode">Product Code</label>
+                    <input id="productCode"
+                           th:field="*{productCode}"
+                           type="text"
+                           placeholder="e.g. P1031"
+                           th:readonly="${isEdit}"/>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('productCode')}"
+                          th:errors="*{productCode}">
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label for="name">Product Name</label>
+                    <input id="name"
+                           th:field="*{name}"
+                           type="text"
+                           placeholder="e.g. Luminous Globe 3D Wooden Puzzle"/>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('name')}"
+                          th:errors="*{name}">
+                    </span>
+                </div>
+            </div>
+
+            <!-- ── Row 2: Manufacturer + Piece Count ── -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="manufacturerName">Manufacturer</label>
+                    <select id="manufacturerName" th:field="*{manufacturerName}">
+                        <option value="">Select a manufacturer</option>
+                        <option th:each="m : ${manufacturers}"
+                                th:value="${m.name}"
+                                th:text="${m.name}">
+                        </option>
+                    </select>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('manufacturerName')}"
+                          th:errors="*{manufacturerName}">
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label for="pieceCount">Piece Count</label>
+                    <input id="pieceCount"
+                           th:field="*{pieceCount}"
+                           type="number"
+                           placeholder="e.g. 180"
+                           min="1"/>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('pieceCount')}"
+                          th:errors="*{pieceCount}">
+                    </span>
+                </div>
+            </div>
+
+            <!-- ── Row 3: Category + Difficulty ── -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="category">Category</label>
+                    <select id="category" th:field="*{category}">
+                        <option value="">Select a category</option>
+                        <option th:each="cat : ${categories}"
+                                th:value="${cat}"
+                                th:text="${#strings.replace(cat.name(), '_', ' ')}">
+                        </option>
+                    </select>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('category')}"
+                          th:errors="*{category}">
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty" th:field="*{difficulty}">
+                        <option value="">Select a difficulty</option>
+                        <option th:each="diff : ${difficulties}"
+                                th:value="${diff}"
+                                th:text="${diff.name()}">
+                        </option>
+                    </select>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('difficulty')}"
+                          th:errors="*{difficulty}">
+                    </span>
+                </div>
+            </div>
+
+            <!-- ── Row 4: Price + Wholesale Cost ── -->
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="price">Price ($)</label>
+                    <input id="price"
+                           th:field="*{price}"
+                           type="number"
+                           placeholder="e.g. 59.99"
+                           step="0.01" min="0.01"/>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('price')}"
+                          th:errors="*{price}">
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label for="wholesaleCost">Wholesale Cost ($)</label>
+                    <input id="wholesaleCost"
+                           th:field="*{wholesaleCost}"
+                           type="number"
+                           placeholder="e.g. 28.00"
+                           step="0.01" min="0.01"/>
+                    <span class="field-error"
+                          th:if="${#fields.hasErrors('wholesaleCost')}"
+                          th:errors="*{wholesaleCost}">
+                    </span>
+                </div>
+            </div>
+
+            <!-- ── Short Description ── -->
+            <div class="form-field">
+                <label for="shortDescription">Short Description</label>
+                <input id="shortDescription"
+                       th:field="*{shortDescription}"
+                       type="text"
+                       placeholder="Brief one-line summary of the product"/>
+                <span class="field-error"
+                      th:if="${#fields.hasErrors('shortDescription')}"
+                      th:errors="*{shortDescription}">
+                </span>
+            </div>
+
+            <!-- ── Long Description ── -->
+            <div class="form-field">
+                <label for="longDescription">Long Description</label>
+                <textarea id="longDescription"
+                          th:field="*{longDescription}"
+                          rows="5"
+                          placeholder="Full detailed description of the product">
+                </textarea>
+                <span class="field-error"
+                      th:if="${#fields.hasErrors('longDescription')}"
+                      th:errors="*{longDescription}">
+                </span>
+            </div>
+
+            <!-- ── Image preview (edit only) ── -->
+            <div th:if="${isEdit}" class="image-preview">
+                <label>Current Image</label>
+                <img th:src="@{'/images/products-images/' + ${productForm.productCode} + '-01.jpg'}"
+                     th:alt="${productForm.name}"
+                     onerror="this.onerror=null; this.src=''"/>
+                <p class="image-note">
+                    Images are loaded from the static folder using the product code.
+                    To update images, replace the files in <code>static/images/products-images/</code>.
+                </p>
+            </div>
+
+            <!-- ── Actions ── -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    <span th:text="${isEdit} ? 'Save Changes' : 'Create Product'"></span>
+                </button>
+                <a th:href="${isEdit} ? @{'/products/' + ${productForm.productCode}} : @{/products}"
+                   class="btn-cancel">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

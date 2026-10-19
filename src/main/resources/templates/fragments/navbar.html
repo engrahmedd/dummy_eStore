@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<nav th:fragment="navbar" class="navbar">
+    <a th:href="@{/}" class="nav-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo" class="nav-logo"/>
+        <span>Puzzle Store</span>
+    </a>
+
+    <div class="nav-links">
+
+        <!-- Welcome message first -->
+        <th:block sec:authorize="isAuthenticated()">
+            <span class="nav-welcome"
+                  th:text="'Welcome, ' + ${welcomeName}"></span>
+        </th:block>
+
+        <!-- Nav links -->
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/products}">Products</a>
+
+        <!-- Unauthenticated -->
+        <th:block sec:authorize="isAnonymous()">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}" class="btn-nav">Register</a>
+        </th:block>
+
+        <!-- Authenticated -->
+        <th:block sec:authorize="isAuthenticated()">
+            <a th:href="@{/cart}">Cart</a>
+            <a th:href="@{/account}">Account</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn-nav-logout">Logout</button>
+            </form>
+        </th:block>
+
+    </div>
+</nav>
+
+</body>
+</html>

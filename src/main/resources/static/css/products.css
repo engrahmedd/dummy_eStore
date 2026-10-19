@@ -1,0 +1,243 @@
+/* ── products.css ── */
+
+/* Page layout */
+.page-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.product-count {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-left: 0.4rem;
+}
+
+/* ── Filter bar ── */
+.filter-bar {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto;
+    grid-template-rows: auto auto;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.filter-input,
+.filter-select {
+    height: 40px;
+    padding: 0 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+    transition: border-color 0.2s;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.filter-search {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+.filter-select { width: auto; }
+.filter-price  { width: 140px; }
+
+.btn-search {
+    grid-column: 1;
+    justify-self: start;
+    height: 40px;
+    padding: 0 1.4rem;
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    border: none;
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn-search:hover  { background: var(--color-accent-hover); }
+.btn-search:active { transform: scale(0.98); }
+
+.filter-clear {
+    margin-bottom: 1.5rem;
+    min-height: 1.2rem;
+}
+
+.filter-clear a {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.filter-clear a:hover { text-decoration: underline; }
+
+/* ── No results ── */
+.no-results {
+    text-align: center;
+    padding: 4rem 0;
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--color-text-muted);
+}
+
+.no-results a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+/* ── Product grid ── */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* ── Product card ── */
+.product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.badge-inactive {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #e74c3c;
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.card-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-image-bg);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .card-image img {
+    transform: scale(1.04);
+}
+
+.card-body {
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0 0 0.4rem;
+    line-height: 1.35;
+}
+
+.card-desc {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    flex: 1;
+}
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.card-price {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.tag {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.admin-toolbar {
+    margin-bottom: 1rem;
+}
+
+.btn-create {
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.tag-mfr  { background: #f0ece4; color: #6b5a3e; }
+.tag-cat  { background: #e8f0e8; color: #3a6b3a; }
+.tag-diff { background: #e8eef5; color: #2a4a6b; }

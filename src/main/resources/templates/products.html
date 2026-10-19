@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Products – PuzzleShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/products.css}"/>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<!-- ── Page Header ── -->
+<main class="page-wrapper">
+    <div class="page-header">
+        <h1 class="page-title">
+            Products
+            <span class="product-count" th:text="'(' + ${products.size()} + ')'"></span>
+        </h1>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <div sec:authorize="hasRole('ADMIN')" class="admin-toolbar">
+        <a th:href="@{/admin/products/create}" class="btn-primary">Create Product</a>
+    </div>
+
+    <!-- ── Search & Filter Bar ── -->
+    <form th:action="@{/products}" method="get" class="filter-bar">
+
+        <input class="filter-input filter-search"
+               type="text" name="keyword"
+               th:value="${keyword}"
+               placeholder="Search..."/>
+
+        <select class="filter-select" name="category">
+            <option value="">All Categories</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat}"
+                    th:text="${#strings.replace(cat.name(), '_', ' ')}"
+                    th:selected="${cat == selectedCategory}">
+            </option>
+        </select>
+
+        <select class="filter-select" name="difficulty">
+            <option value="">All Difficulties</option>
+            <option th:each="diff : ${difficulties}"
+                    th:value="${diff}"
+                    th:text="${diff.name()}"
+                    th:selected="${diff == selectedDifficulty}">
+            </option>
+        </select>
+
+        <input class="filter-input filter-price"
+               type="number" name="minPrice"
+               th:value="${minPrice}"
+               placeholder="Min Price"
+               step="0.01" min="0"/>
+
+        <input class="filter-input filter-price"
+               type="number" name="maxPrice"
+               th:value="${maxPrice}"
+               placeholder="Max Price"
+               step="0.01" min="0"/>
+
+        <button type="submit" class="btn-search">Search</button>
+
+    </form>
+
+    <!-- Clear filters link -->
+    <div class="filter-clear">
+        <a th:href="@{/products}"
+           th:if="${keyword != null or selectedCategory != null or selectedDifficulty != null or minPrice != null or maxPrice != null}">
+            Clear
+        </a>
+    </div>
+
+    <!-- ── No Results ── -->
+    <div th:if="${#lists.isEmpty(products)}" class="no-results">
+        <p>No products found. <a th:href="@{/products}">Clear filters</a></p>
+    </div>
+
+    <!-- ── Product Grid ── -->
+    <div class="product-grid" th:unless="${#lists.isEmpty(products)}">
+        <a th:each="product : ${products}"
+           th:href="@{/products/{code}(code=${product.productCode})}"
+           class="product-card">
+
+            <!-- Inactive badge (admin only) -->
+            <span sec:authorize="hasRole('ADMIN')"
+                  th:if="${!product.active}"
+                  class="badge-inactive">Inactive</span>
+
+
+            <div class="card-image">
+                <img th:src="@{'/images/products-images/' + ${product.productCode} + '-01.jpg'}"
+                     th:alt="${product.name}"
+                     onerror="this.onerror=null; this.src=''"/>
+
+            </div>
+
+            <div class="card-body">
+                <h2 class="card-title" th:text="${product.name}"></h2>
+                <p class="card-desc" th:text="${product.shortDescription}"></p>
+
+                <div class="card-meta">
+                    <span class="card-price" th:text="'$' + ${product.price}"></span>
+                    <div class="card-tags">
+                        <span class="tag tag-mfr"     th:text="${product.manufacturer.name}"></span>
+                        <span class="tag tag-cat"     th:text="${#strings.replace(product.category.name(), '_', ' ')}"></span>
+                        <span class="tag tag-diff"    th:text="${product.difficulty.name()}"></span>
+                    </div>
+                </div>
+            </div>
+
+        </a>
+    </div>
+</main>
+
+</body>
+</html>

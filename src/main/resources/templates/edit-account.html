@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Edit Account – PuzzleShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/account.css}"/>
+</head>
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="page-wrapper">
+    <div class="account-layout">
+
+        <aside class="account-sidebar">
+            <div class="sidebar-avatar">
+                <span th:text="${#strings.substring(user.firstName, 0, 1) + #strings.substring(user.lastName, 0, 1)}"></span>
+            </div>
+            <p class="sidebar-name" th:text="${user.firstName + ' ' + user.lastName}"></p>
+            <p class="sidebar-email" th:text="${user.email}"></p>
+
+            <nav class="sidebar-nav">
+                <a th:href="@{/account}" class="sidebar-link">Overview</a>
+                <a th:href="@{/account/orders}" class="sidebar-link">Order History</a>
+                <a th:href="@{/account/edit}" class="sidebar-link">Edit Account</a>
+                <a th:href="@{/account/change-password}" class="sidebar-link">Change Password</a>
+            </nav>
+        </aside>
+
+        <div class="account-content">
+            <a th:href="@{/account}" class="back-link">← Back to Account</a>
+            <h1 class="page-title">Edit Account</h1>
+
+            <div th:if="${errorMessage}" class="alert alert-error">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            <div th:if="${successMessage}" class="alert alert-success">
+                <span th:text="${successMessage}"></span>
+            </div>
+
+            <div class="account-card">
+                <form th:action="@{/account/edit}" th:object="${editForm}" method="post">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="firstName">First Name</label>
+                            <input id="firstName" th:field="*{firstName}" type="text"/>
+                        </div>
+                        <div class="form-field">
+                            <label for="lastName">Last Name</label>
+                            <input id="lastName" th:field="*{lastName}" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                        <a th:href="@{/account}" class="btn-cancel">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

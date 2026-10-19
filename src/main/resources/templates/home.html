@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PuzzleShop – Handcrafted Wooden Puzzles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-left">
+            <p class="hero-eyebrow">Handcrafted Wooden Puzzle Store</p>
+            <h1 class="hero-title">Beautiful puzzles built to challenge, display, and enjoy.</h1>
+            <p class="hero-sub">Discover mechanical builds, decorative pieces, and gift-worthy wooden puzzles designed for curious minds and careful hands.</p>
+
+            <div class="hero-buttons">
+                <a th:href="@{/products}" class="btn-hero">All Puzzles</a>
+                <a th:href="@{/products(difficulty='HARD')}" class="btn-hero">Hard Puzzles</a>
+                <a th:href="@{/products(difficulty='MEDIUM')}" class="btn-hero">Medium Puzzles</a>
+                <a th:href="@{/products(difficulty='EASY')}" class="btn-hero">Easy Puzzles</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" th:text="${totalProducts}">30</span>
+                    <span class="stat-label">Products</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">7</span>
+                    <span class="stat-label">Categories</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Difficulty Levels</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="hero-card">
+                <h3 class="hero-card-title">Why our Store?</h3>
+                <ul class="hero-card-list">
+                    <li>Precision-cut wooden puzzle designs</li>
+                    <li>Difficulty levels for casual and expert builders</li>
+                    <li>Great for gifts, display shelves, and collectors</li>
+                    <li>Detailed product pages with multiple images</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Categories ── -->
+<section class="section">
+    <div class="section-inner">
+        <p class="section-eyebrow">Shop by Category</p>
+        <h2 class="section-title">Find the style that fits your interest</h2>
+
+        <div class="category-grid">
+            <a th:each="cat : ${categories}"
+               th:href="@{/products(category=${cat})}"
+               class="category-card">
+                <h3 class="category-name"
+                    th:text="${#strings.replace(cat.name(), '_', ' ')}"></h3>
+                <p class="category-desc" th:switch="${cat.name()}">
+                    <span th:case="'MECHANICAL'">Moving parts, interlocking components, and satisfying assembly.</span>
+                    <span th:case="'HISTORICAL'">Models inspired by classic structures, eras, and designs.</span>
+                    <span th:case="'NAUTICAL'">Ships, sea-inspired models, and maritime-themed builds.</span>
+                    <span th:case="'SCI_FI'">Futuristic forms and imaginative builds for puzzle fans.</span>
+                    <span th:case="'FANTASY'">Magical themes, imaginative silhouettes, and display-worthy pieces.</span>
+                    <span th:case="'ARCHITECTURE'">Buildable structures and landmark-inspired puzzle models.</span>
+                    <span th:case="'DECORATIVE'">Puzzles that look just as good on a shelf as they do in progress.</span>
+                </p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Featured products ── -->
+<section class="section section-alt">
+    <div class="section-inner">
+        <div class="section-header">
+            <div>
+                <p class="section-eyebrow">Featured</p>
+                <h2 class="section-title">Popular puzzles to start with</h2>
+            </div>
+            <a th:href="@{/products}" class="btn-view-all">View all products</a>
+        </div>
+
+        <div class="featured-grid">
+            <a th:each="product : ${featuredProducts}"
+               th:href="@{/products/{code}(code=${product.productCode})}"
+               class="featured-card">
+
+                <div class="featured-image">
+                    <img th:src="@{'/images/products-images/' + ${product.productCode} + '-01.jpg'}"
+                         th:alt="${product.name}"
+                         onerror="this.onerror=null; this.src=''"/>
+                </div>
+
+                <div class="featured-body">
+                    <div class="featured-tags">
+                        <span class="tag tag-cat"
+                              th:text="${#strings.replace(product.category.name(), '_', ' ')}"></span>
+                        <span class="tag tag-diff"
+                              th:text="${product.difficulty.name()}"></span>
+                    </div>
+                    <h3 class="featured-name" th:text="${product.name}"></h3>
+                    <p class="featured-desc" th:text="${product.shortDescription}"></p>
+                    <div class="featured-footer">
+                        <span class="featured-price" th:text="'$' + ${product.price}"></span>
+                        <span class="featured-pieces"
+                              th:text="${product.pieceCount} + ' pieces'"></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Why shop here ── -->
+<section class="section">
+    <div class="section-inner">
+        <p class="section-eyebrow">Why Shop Here</p>
+        <h2 class="section-title">A better puzzle-buying experience</h2>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3 class="feature-title">Craftsmanship First</h3>
+                <p class="feature-desc">Warm materials, clean design, and display-friendly builds make each puzzle feel substantial.</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Clear Difficulty Levels</h3>
+                <p class="feature-desc">Browse easy, medium, and hard builds so shoppers can quickly find a good match.</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Gift-Ready Selection</h3>
+                <p class="feature-desc">Wooden puzzles make strong gifts for hobbyists, collectors, students, and makers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta">
+    <div class="cta-inner">
+        <div>
+            <p class="section-eyebrow cta-eyebrow">Start Exploring</p>
+            <h2 class="cta-title">Ready to find your next build?</h2>
+            <p class="cta-sub">Browse the full collection and discover puzzles by category, difficulty, and price.</p>
+        </div>
+        <a th:href="@{/products}" class="btn-cta">Shop Now</a>
+    </div>
+</section>
+
+</body>
+</html>
